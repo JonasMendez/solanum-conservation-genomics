@@ -1,7 +1,7 @@
 # GADMA2 Parameter Files
 
 Three GADMA2 optimization sets were run to infer the joint demographic history
-of *S. incompletum*, *S. sandwicense* (Oahu), and *S. kavaiensis* (Kauai).
+of *S. incompletum*, *S. sandwicense* (Oahu), and *S. sandwicense* (Kauai)/ *S. kavaiensis* .
 All runs used the moments engine with a three-population [1,1,1] model structure
 and asymmetric migration as free parameters. Full methodological details are
 provided in the manuscript Methods and Supplementary Methods.
