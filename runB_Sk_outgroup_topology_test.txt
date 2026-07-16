@@ -1,0 +1,45 @@
+# GADMA2 Run B -- Sk-outgroup topology (Sk(Si,Ss))
+# Population order: Sk, Si, Ss (matches easySFS --order Sk,Si,Ss)
+# Period 2 migration: Sk-anc <-> SiSs-ancestor allowed
+# Period 3: all pairwise migration allowed
+# Compare AIC with Run A to assess topology support
+
+Output directory: 03_analyses/gadma/gadma2_Sk_outgroup_topology_test
+Input data: 03_analyses/gadma/easysfs_sfs_Sk_outgroup/dadi/Sk-Si-Ss.sfs
+Population labels: [Sk, Si, Ss]
+Projections: [12, 16, 30]
+Outgroup: False
+Engine: moments
+Linked SNP's: False
+Initial structure: [1, 1, 1]
+Final structure: [1, 1, 1]
+Only sudden: False
+Dynamics: [Sud, Lin, Exp]
+No migrations: False
+Symmetric migrations: False
+# Migration masks for [Sk, Si, Ss] population order, [1,1,1] structure:
+# 2 matrices total (one per inter-split period):
+#   Matrix 1 (2x2): Period 1 — Sk lineage vs SiSs ancestor: migration allowed
+#   Matrix 2 (3x3): Period 2 — Sk, Si, Ss all separate: all pairwise allowed
+Migration masks: [[[0,1],[1,0]], [[0,1,1],[1,0,1],[1,1,0]]]
+Selection: False
+Dominance: False
+min_N: 0.01
+max_N: 100
+min_T: 0.01
+max_T: 15.0
+min_m: 0.0
+max_m: 5.0
+Local optimizer: BFGS_log
+Number of repeats: 10
+Number of processes: 6
+Theta0: Null
+Mutation rate: Null
+Time for generation: Null
+Verbose: 1
+Silence: False
+Print models' code every N iteration: 100
+Draw models every N iteration: 0
+Model plot engine: moments
+Units of time in drawing: generations
+Vmin: 1

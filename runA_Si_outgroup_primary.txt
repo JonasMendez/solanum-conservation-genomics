@@ -1,0 +1,89 @@
+# =============================================================================
+# GADMA2 parameter file — Hawaiian Solanum 3-population IM model
+# Run A: fixed topology (Si(Ss,Sk)) + Period 2 migration allowed
+# =============================================================================
+# Population order: Si, Ss, Sk (matches easySFS --order Si,Ss,Sk)
+# Topology: (Si(Ss,Sk)) — Si is outgroup, Ss+Sk are sisters.
+#   Topology is determined by GADMA2 from the SFS and population label order,
+#   NOT from the structure parameter. The structure parameter controls only
+#   the number of size-change epochs per time period.
+#
+# Structure [1,1,1]:
+#   Each integer = number of size-change epochs in that time period.
+#   3 integers because there are 3 time periods in a 3-population 2-split model:
+#     Period 1: before split 1 (ancestral population)     -> 1 epoch
+#     Period 2: between split 1 and split 2 (Si vs SsSk)  -> 1 epoch
+#     Period 3: after split 2 (Si, Ss, Sk all separate)   -> 1 epoch
+#   This is the most parsimonious model. The previous run used [1,2,1] which
+#   added an extra epoch in Period 2; reverted to [1,1,1] for cleaner
+#   convergence given the sparse SFS.
+#
+# Migration masks: 3 matrices, one per time period, matching [1,1,1] structure.
+#   Each matrix dimension matches the number of populations in that period.
+#   Period 1 (2 pops: Si lineage vs SsSk ancestor):
+#     2x2 matrix — Si<->SsSk migration ALLOWED
+#     Rationale: Big Island only ~300kyr old; Si ancestor likely on Maui/Oahu
+#     during this period, allowing geographic overlap with SsSk ancestor.
+#   Period 2 (2 pops: Si lineage vs SsSk ancestor, continuing):
+#     Wait — with [1,1,1] there is only ONE epoch in Period 2, so only ONE
+#     2x2 matrix needed for that period. Period 3 has a 3x3 matrix.
+#   Correct mask structure for [1,1,1] with 2 splits:
+#     Matrix 1: 2x2 for Period 1 (Si vs SsSk ancestor) — migration allowed
+#     Matrix 2: 3x3 for Period 2 (Si, Ss, Sk) — all pairwise migration allowed
+# =============================================================================
+
+Output directory: 03_analyses/gadma/gadma2_Si_outgroup_primary
+Input data: 03_analyses/gadma/easysfs_sfs/dadi/Si-Ss-Sk.sfs
+
+Population labels: [Si, Ss, Sk]
+Projections: [16, 30, 12]
+
+Outgroup: False
+Engine: moments
+
+# Linked SNPs: False. Majority of SNPs come from distinct RAD loci.
+# A minor proportion derive from multi-SNP loci (easySFS -a flag kept all SNPs)
+# but this proportion is small and independence assumption approximately holds.
+Linked SNP's: False
+
+# Structure: [1,1,1] = one size-change epoch per time period (most parsimonious)
+Initial structure: [1, 1, 1]
+Final structure: [1, 1, 1]
+
+Only sudden: False
+Dynamics: [Sud, Lin, Exp]
+
+No migrations: False
+Symmetric migrations: False
+# Migration masks for [1,1,1] structure — 2 matrices for 2 inter-split periods:
+#   Matrix 1 (2x2): Period 1 — Si lineage vs SsSk ancestor
+#     [[0,1],[1,0]] — Si<->SsSk migration allowed (island age rationale)
+#   Matrix 2 (3x3): Period 2 — Si, Ss, Sk all separate
+#     [[0,1,1],[1,0,1],[1,1,0]] — all pairwise migration allowed
+Migration masks: [[[0,1],[1,0]], [[0,1,1],[1,0,1],[1,1,0]]]
+
+Selection: False
+Dominance: False
+
+min_N: 0.01
+max_N: 100
+min_T: 0.01
+max_T: 15.0
+min_m: 0.0
+max_m: 5.0
+
+Local optimizer: BFGS_log
+Number of repeats: 10
+Number of processes: 6
+
+Theta0: Null
+Mutation rate: Null
+Time for generation: Null
+
+Verbose: 1
+Silence: False
+Print models' code every N iteration: 100
+Draw models every N iteration: 0
+Model plot engine: moments
+Units of time in drawing: generations
+Vmin: 1
